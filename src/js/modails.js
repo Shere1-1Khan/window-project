@@ -8,7 +8,7 @@ function showModalByTime(selector, time) {
   setTimeout(() => showModal(modal), time);
 }
 
-function bindModal(trigerSelector, modalSelector, closeSelector) {
+const bindModal = (trigerSelector, modalSelector, closeSelector) => {
   const trigger = document.querySelectorAll(trigerSelector);
   const modal = document.querySelector(modalSelector);
   const close = document.querySelector(closeSelector);
@@ -33,12 +33,12 @@ function bindModal(trigerSelector, modalSelector, closeSelector) {
     modal.style.display = 'none';
     document.body.classList.remove('modal-open');
   });
-}
+};
 
 const handlerModalClick = () => {
   bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close');
   bindModal('.phone_link', '.popup', '.popup .popup_close');
-  showModalByTime('.popup', 6000);
+  showModalByTime('.popup', 60000);
 };
 
 export {handlerModalClick};
