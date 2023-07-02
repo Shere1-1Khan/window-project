@@ -1,32 +1,50 @@
 const Slider = {
-  choiceGlazingType : document.querySelector('.glazing_slider'),
-  choiceDefinitionType : document.querySelector('.slick-list')
+  GlazingSlider : {
+    triger : document.querySelector('.glazing_slider'),
+    content : document.querySelectorAll('.glazing_content'),
+    selectorElement : document.querySelectorAll('.glazing_block'),
+    class : 'active',
+  },
+  DecorationOrder : {
+    triger : document.querySelector('.decoration_slider'),
+    content : document.querySelectorAll('.decoration_content > div > div'),
+    selectorElement : document.querySelectorAll('.no_click'),
+    class : 'after_click'
+  },
+  itemIndex : '.slick-slide',
+  index : 'slickIndex',
 };
-
-const hideTabContent = (element, tabSelector) => {
+const hideTabContent = (element, tabSelector, classElement) => {
   element.forEach((item) => {
     item.style.display = 'none';
   });
-  tabSelector.forEach(item => {
-    item.classList.remove('active');
-});
+  tabSelector.forEach((item) => {
+    item.classList.remove(classElement);
+  });
 };
 
-const getTypeSliderItem = (evt) => {
-  evt.preventDefault();
-  if (evt.target) {
-    const contentElement = document.querySelectorAll('.glazing_content');
-    const sliderItem = document.querySelectorAll('.glazing_block');
-    const itemIndex = evt.target.parentNode.closest('.slick-slide').dataset.slickIndex;
+const showTabContent = (contentElement, tabSelector, classElement) => {
+  contentElement.style.display = 'block';
+  tabSelector.classList.add(classElement);
+};
 
-    hideTabContent(contentElement, sliderItem);
-    contentElement[itemIndex].style.display = 'block';
-    sliderItem[itemIndex].classList.add('active');
-  }
+
+const bindTabs = ({data}) => {
+
+  data.triger.addEventListener('click', (evt) => {
+    evt.preventDefault();
+
+    if (evt.target) {
+      const index = evt.target.parentNode.closest(Slider.itemIndex).dataset[Slider.index];
+      hideTabContent(data.content, data.selectorElement, data.class);
+      showTabContent(data.content[index], data.selectorElement[index], data.class);
+    }
+  });
 };
 
 const handlerSliders = () => {
-  Slider.choiceGlazingType.addEventListener('click', getTypeSliderItem);
+  bindTabs({data : Slider.GlazingSlider});
+  bindTabs({data : Slider.DecorationOrder});
 };
 
 export {handlerSliders};
